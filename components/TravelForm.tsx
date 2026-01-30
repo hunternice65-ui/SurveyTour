@@ -71,7 +71,7 @@ const TravelForm: React.FC<TravelFormProps> = ({ onSubmit }) => {
         </div>
         <div className="min-w-0">
            <h2 className="text-xl md:text-2xl font-black text-slate-800 tracking-tight truncate">Travel Survey</h2>
-           <p className="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-widest">ข้อมูลของคุณจะถูกใช้โดย AI เพื่อวิเคราะห์แนวโน้ม</p>
+           <p className="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-widest">ข้อมูลจะถูกบันทึกลงในระบบ Google Sheets ทันที</p>
         </div>
       </div>
       
@@ -223,7 +223,7 @@ const TravelForm: React.FC<TravelFormProps> = ({ onSubmit }) => {
           type="submit"
           className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-5 md:py-6 rounded-[1.5rem] md:rounded-[2rem] shadow-2xl shadow-blue-100 transition-all active:scale-[0.98] flex items-center justify-center gap-3 text-lg"
         >
-           ส่งข้อมูลวิเคราะห์
+           บันทึกข้อมูลสถานที่
            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
            </svg>

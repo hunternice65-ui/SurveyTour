@@ -1,9 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
-import { TravelEntry, InsightReport } from './types';
+import { TravelEntry } from './types';
 import TravelForm from './components/TravelForm';
 import Dashboard from './components/Dashboard';
-import { analyzeTravelData } from './services/geminiService';
 
 const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwik1KYwxKwI0tBabbscOcjuFoVpaeIfG3KkpbfIP3AzpLXEirtXroP0Kt22vkGUcHd/exec";
 
@@ -14,8 +13,6 @@ const MOCK_INITIAL_DATA: TravelEntry[] = [
 
 const App: React.FC = () => {
   const [entries, setEntries] = useState<TravelEntry[]>([]);
-  const [insights, setInsights] = useState<InsightReport | null>(null);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [activeTab, setActiveTab] = useState<'survey' | 'stats' | 'history'>('survey');
 
   useEffect(() => {
@@ -64,19 +61,6 @@ const App: React.FC = () => {
     }
   };
 
-  const handleAnalyze = async () => {
-    setIsAnalyzing(true);
-    try {
-      const result = await analyzeTravelData(entries);
-      setInsights(result);
-      setActiveTab('stats');
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsAnalyzing(false);
-    }
-  };
-
   return (
     <div className="min-h-screen bg-[#F8FAFC] pb-24 md:pb-12 text-slate-900">
       {/* Header */}
@@ -96,26 +80,11 @@ const App: React.FC = () => {
           </div>
           
           <div className="flex items-center gap-4">
-            <nav className="hidden lg:flex bg-slate-100/80 p-1 rounded-2xl border border-slate-200 shadow-inner">
-              <button onClick={() => setActiveTab('survey')} className={`px-6 py-2.5 rounded-xl text-xs font-black transition-all ${activeTab === 'survey' ? 'bg-white text-blue-600 shadow-md scale-105' : 'text-slate-500 hover:text-slate-800'}`}>เพิ่มสถานที่</button>
-              <button onClick={() => setActiveTab('history')} className={`px-6 py-2.5 rounded-xl text-xs font-black transition-all ${activeTab === 'history' ? 'bg-white text-blue-600 shadow-md scale-105' : 'text-slate-500 hover:text-slate-800'}`}>ประวัติข้อมูล</button>
-              <button onClick={() => setActiveTab('stats')} className={`px-6 py-2.5 rounded-xl text-xs font-black transition-all ${activeTab === 'stats' ? 'bg-white text-blue-600 shadow-md scale-105' : 'text-slate-500 hover:text-slate-800'}`}>วิเคราะห์ AI</button>
+            <nav className="flex bg-slate-100/80 p-1 rounded-2xl border border-slate-200 shadow-inner">
+              <button onClick={() => setActiveTab('survey')} className={`px-4 md:px-6 py-2.5 rounded-xl text-[10px] md:text-xs font-black transition-all ${activeTab === 'survey' ? 'bg-white text-blue-600 shadow-md scale-105' : 'text-slate-500 hover:text-slate-800'}`}>เพิ่มสถานที่</button>
+              <button onClick={() => setActiveTab('history')} className={`px-4 md:px-6 py-2.5 rounded-xl text-[10px] md:text-xs font-black transition-all ${activeTab === 'history' ? 'bg-white text-blue-600 shadow-md scale-105' : 'text-slate-500 hover:text-slate-800'}`}>ประวัติข้อมูล</button>
+              <button onClick={() => setActiveTab('stats')} className={`px-4 md:px-6 py-2.5 rounded-xl text-[10px] md:text-xs font-black transition-all ${activeTab === 'stats' ? 'bg-white text-blue-600 shadow-md scale-105' : 'text-slate-500 hover:text-slate-800'}`}>สถิติ</button>
             </nav>
-            
-            <div className="flex items-center gap-2">
-              <button 
-                onClick={handleAnalyze}
-                disabled={isAnalyzing || entries.length === 0}
-                className="bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 text-white p-2.5 rounded-2xl shadow-lg shadow-blue-200 transition-all active:scale-95 flex items-center justify-center gap-2"
-              >
-                 {isAnalyzing ? <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div> : (
-                   <div className="flex items-center gap-2 px-2">
-                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                     <span className="hidden md:inline text-xs font-black uppercase">Run AI</span>
-                   </div>
-                 )}
-              </button>
-            </div>
           </div>
         </div>
       </header>
@@ -226,12 +195,7 @@ const App: React.FC = () => {
         )}
 
         {activeTab === 'stats' && (
-          <Dashboard 
-            data={entries} 
-            insights={insights} 
-            isAnalyzing={isAnalyzing} 
-            onAnalyze={handleAnalyze} 
-          />
+          <Dashboard data={entries} />
         )}
       </main>
 

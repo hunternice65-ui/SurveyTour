@@ -1,7 +1,5 @@
 {
   "name": "Traveler Insights & Data Hub",
-  "description": "A comprehensive platform to collect travel preferences and analyze trends using Gemini AI and interactive visualizations.",
-  "requestFramePermissions": [
-    "camera"
-  ]
+  "description": "A comprehensive platform to collect travel preferences and analyze trends via Google Sheets.",
+  "requestFramePermissions": []
 }
